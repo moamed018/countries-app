@@ -43,7 +43,7 @@ Users should be able to:
 -   Solution URL: [Github](https://github.com/moamed018/countries-app)
 -   Frontend Mentor URL: [Frontend Mentor](https://your-solution-url.com)
 -   Live Site URL: [Github Pages](https://moamed018.github.io/countries-app/)
--   Live Site URL Surge (Old version): <a href="http://countries-app-moamed018.surge.sh/" style="text-decoration: line-through;" target="_blank">Surge</a>
+-   Live Site URL Surge (Old version): <a href="http://countries-app-moamed018.surge.sh/" style=" text-decoration: line-through; " target="_blank">Surge</a>
 
 ### Built with
 
