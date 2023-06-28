@@ -37,6 +37,7 @@ const Country = (props) => {
                 className="card-img-top"
                 alt={country.cca2}
                 style={{ height: "150px" }}
+                loading="lazy"
             />
             <div className="card-body">
                 <h5 className="card-title fw-bold">{country.name?.official}</h5>

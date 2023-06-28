@@ -62,7 +62,7 @@ const Home = () => {
         const timer = setTimeout(() => {
             if (searchValue !== "") {
                 getAllCountriesBySearch(searchValue);
-                console.log(searchValue);
+                // console.log(searchValue);
             } else {
                 setError(false);
                 getAllCountries();
@@ -82,7 +82,7 @@ const Home = () => {
             }
             if (regionValue !== "title" && regionValue !== "all") {
                 getAllCountriesByRegion(regionValue);
-                console.log(regionValue);
+                // console.log(regionValue);
             }
         }, 500);
 
@@ -91,10 +91,17 @@ const Home = () => {
         };
     }, [regionValue]);
 
+    const submitHandler = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div className="">
-            <div className="container py-5">
-                <form className="d-flex justify-content-between flex-column flex-md-row gap-4">
+            <div className="container-xl py-5">
+                <form
+                    className="d-flex justify-content-between flex-column flex-md-row gap-4"
+                    onSubmit={submitHandler}
+                >
                     <input
                         type="search"
                         id="search-input"

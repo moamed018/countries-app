@@ -43,14 +43,16 @@ const CountryPage = () => {
 
                     document.title = `Countries App | ${data[0].name.common}`;
 
-                    const bor = data[0].borders.join(",");
+                    const bor = data[0].borders?.join(",");
                     // console.log(bor);
 
-                    return fetch(
-                        `https://restcountries.com/v3.1/alpha?codes=${bor}`
-                    );
+                    if (bor) {
+                        return fetch(
+                            `https://restcountries.com/v3.1/alpha?codes=${bor}`
+                        );
+                    }
                 })
-                .then((res) => res.json())
+                .then((res) => res?.json())
                 .then((data) => setBordersCountries(data));
         }
     }, [apiUrl, param.countryCca2]);
@@ -58,7 +60,7 @@ const CountryPage = () => {
     // console.log(bordersCountries);
 
     return (
-        <div className="details container my-5">
+        <div className="details container-xl my-5">
             {countryCode.length === 0 ? <Spinner /> : null}
 
             {countryCode.length > 0 &&
@@ -86,6 +88,7 @@ const CountryPage = () => {
                                         className="w-100 h-100"
                                         src={coun.flags.png}
                                         alt={coun.cca2}
+                                        loading="lazy"
                                     />
                                 </div>
                                 <div className="text col-md-6 col-12 align-self-center">
@@ -95,21 +98,24 @@ const CountryPage = () => {
 
                                     <div className="info d-flex justify-content-between flex-md-row flex-column gap-md-2 gap-5 mb-5">
                                         <ul className="list-group list-group-flush left-info">
-                                            <li className="list-group-item ps-1 mb-2 pb-1">
-                                                <span className="fw-bold">
-                                                    Native Name:{" "}
-                                                </span>
-                                                <span>
-                                                    {
-                                                        coun.name.nativeName[
-                                                            Object.keys(
-                                                                coun.name
-                                                                    .nativeName
-                                                            )[0]
-                                                        ].official
-                                                    }
-                                                </span>
-                                            </li>
+                                            {coun.name.nativeName && (
+                                                <li className="list-group-item ps-1 mb-2 pb-1">
+                                                    <span className="fw-bold">
+                                                        Native Name:{" "}
+                                                    </span>
+                                                    <span>
+                                                        {
+                                                            coun.name
+                                                                .nativeName[
+                                                                Object.keys(
+                                                                    coun.name
+                                                                        .nativeName
+                                                                )[0]
+                                                            ].official
+                                                        }
+                                                    </span>
+                                                </li>
+                                            )}
 
                                             <li className="list-group-item ps-1 mb-2 pb-1">
                                                 <span className="fw-bold">
@@ -129,60 +135,77 @@ const CountryPage = () => {
                                                 <span>{coun.region}</span>
                                             </li>
 
-                                            <li className="list-group-item ps-1 mb-2 pb-1">
-                                                <span className="fw-bold">
-                                                    Sub Region:{" "}
-                                                </span>
-                                                <span>{coun.subregion}</span>
-                                            </li>
+                                            {coun.subregion && (
+                                                <li className="list-group-item ps-1 mb-2 pb-1">
+                                                    <span className="fw-bold">
+                                                        Sub Region:{" "}
+                                                    </span>
+                                                    <span>
+                                                        {coun.subregion}
+                                                    </span>
+                                                </li>
+                                            )}
 
-                                            <li className="list-group-item ps-1 mb-2 pb-1">
-                                                <span className="fw-bold">
-                                                    Capital:{" "}
-                                                </span>
-                                                <span>
-                                                    {coun.capital.join(", ")}
-                                                </span>
-                                            </li>
+                                            {coun.capital && (
+                                                <li className="list-group-item ps-1 mb-2 pb-1">
+                                                    <span className="fw-bold">
+                                                        Capital:{" "}
+                                                    </span>
+                                                    <span>
+                                                        {coun.capital.join(
+                                                            ", "
+                                                        )}
+                                                    </span>
+                                                </li>
+                                            )}
                                         </ul>
 
                                         <ul className="list-group list-group-flush right-info">
-                                            <li className="list-group-item ps-1 mb-2 pb-1">
-                                                <span className="fw-bold">
-                                                    Top Level Domain:{" "}
-                                                </span>
-                                                <span>{coun.tld[0]}</span>
-                                            </li>
+                                            {coun.tld && (
+                                                <li className="list-group-item ps-1 mb-2 pb-1">
+                                                    <span className="fw-bold">
+                                                        Top Level Domain:{" "}
+                                                    </span>
+                                                    <span>{coun.tld[0]}</span>
+                                                </li>
+                                            )}
 
-                                            <li className="list-group-item ps-1 mb-2 pb-1">
-                                                <span className="fw-bold">
-                                                    Currencies:{" "}
-                                                </span>
-                                                <span>
-                                                    {Object.values(
-                                                        coun.currencies
-                                                    ).map((curr) => {
-                                                        return (
-                                                            <span
-                                                                key={curr.name}
-                                                            >{`${curr.name}(${curr.symbol}) `}</span>
-                                                        );
-                                                    })}
-                                                </span>
-                                            </li>
+                                            {coun.currencies && (
+                                                <li className="list-group-item ps-1 mb-2 pb-1">
+                                                    <span className="fw-bold">
+                                                        Currencies:{" "}
+                                                    </span>
+                                                    <span>
+                                                        {coun.currencies &&
+                                                            Object.values(
+                                                                coun.currencies
+                                                            ).map((curr) => {
+                                                                return (
+                                                                    <span
+                                                                        key={
+                                                                            curr.name
+                                                                        }
+                                                                    >{`${curr.name}(${curr.symbol}) `}</span>
+                                                                );
+                                                            })}
+                                                    </span>
+                                                </li>
+                                            )}
 
-                                            <li className="list-group-item ps-1 mb-2 pb-1">
-                                                <span className="fw-bold">
-                                                    Languages:{" "}
-                                                </span>
-                                                <span>
-                                                    {Object.values(
-                                                        coun.languages
-                                                    )
-                                                        .sort()
-                                                        .join(", ")}
-                                                </span>
-                                            </li>
+                                            {coun.languages && (
+                                                <li className="list-group-item ps-1 mb-2 pb-1">
+                                                    <span className="fw-bold">
+                                                        Languages:{" "}
+                                                    </span>
+                                                    <span>
+                                                        {Object.values(
+                                                            coun.languages
+                                                        )
+                                                            .sort()
+                                                            .join(", ")}
+                                                    </span>
+                                                </li>
+                                            )}
                                         </ul>
                                     </div>
 
@@ -191,12 +214,13 @@ const CountryPage = () => {
                                             Border Countries:{" "}
                                         </span>
                                         <div className="links-borders d-flex flex-wrap gap-2 justify-content-start justify-content-md-center ps-md-0 ps-4">
-                                            {bordersCountries.length === 0 ? (
+                                            {!bordersCountries ||
+                                            bordersCountries?.length === 0 ? (
                                                 <span>
                                                     No Borders Countries
                                                 </span>
                                             ) : null}
-                                            {bordersCountries.map((border) => {
+                                            {bordersCountries?.map((border) => {
                                                 return (
                                                     border.cca2.toLowerCase() !==
                                                         "il" && (
